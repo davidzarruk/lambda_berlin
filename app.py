@@ -166,7 +166,7 @@ def handler(event, context):
                 'Database': database
             },
             ResultConfiguration={
-                'OutputLocation': 's3://zarruk/Unsaved/2024/05/05/'
+                'OutputLocation': 's3://athena-zarruk/Unsaved/2024/05/05/'
                 }
         )
             
@@ -242,7 +242,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "en que percentil quedaron david zarruk y eduardo acevedo en su respectivo ano?"
+            "question": "cual fue el tiempo promedio de los colombianos cada año?"
         }, {})
 
     print(response)
