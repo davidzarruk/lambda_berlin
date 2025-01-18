@@ -166,7 +166,7 @@ def handler(event, context):
                 'Database': database
             },
             ResultConfiguration={
-                'OutputLocation': 's3://athena-zarruk/Unsaved/2024/05/05/'
+                'OutputLocation': 's3://zarruk/Unsaved/2024/05/05/'
                 }
         )
             
