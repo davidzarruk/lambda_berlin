@@ -158,7 +158,7 @@ def handler(event, context):
 
         database = 'marathon'
         
-        athena_client = boto3.client('athena')
+        athena_client = boto3.client('athena', region_name='us-east-2')
         
         QueryResponse = athena_client.start_query_execution(
             QueryString = query,
