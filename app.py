@@ -165,9 +165,9 @@ def handler(event, context):
             QueryExecutionContext={
                 'Database': database
             },
-            # ResultConfiguration={
-            #     'OutputLocation': 's3://zarruk/Unsaved/2024/05/05/'
-            #     }
+            ResultConfiguration={
+                'OutputLocation': 's3://zarruk/Unsaved/2024/05/05/'
+                }
         )
             
         QueryID = QueryResponse['QueryExecutionId']
