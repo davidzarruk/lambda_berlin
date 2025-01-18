@@ -1,12 +1,16 @@
-import json
-import boto3
-import re
-import time
 from datetime import datetime, timedelta
-import ast
-import pandas as pd
-import botocore
 from openai import OpenAI
+import pandas as pd
+import boto3
+import json
+import time
+import ast
+import re
+
+import logging
+
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
+
 
 def convert_seconds_to_hhmmss(seconds):
     # Ensure seconds are converted to an integer
@@ -18,63 +22,22 @@ def convert_seconds_to_hhmmss(seconds):
     return f"{hours:02}:{minutes:02}:{seconds:02}"
 
 
-
-def get_query(question, model="sonnet", tokens=1000):
-    prompt_data = open("prompt.txt", "r").read()
-    country_codes = open("country_codes.txt", "r").read()
-    prompt_data += country_codes
-
-    response_body = answer_question(question, prompt_data, model=model, tokens=tokens)
-
-    if model=="nova":
-        texto = response_body["output"]["message"]["content"][0]["text"]
-    elif model=="sonnet":
-        texto = response_body["content"][0]["text"] 
-    
-    match = re.search(r'<query>(.*?)</query>', texto, re.DOTALL)
-    if match:
-        query = match.group(1).strip()
-    else:
-        query = ""
-
-    match = re.search(r'<contexto>(.*?)</contexto>', texto, re.DOTALL)
-    if match:
-        contexto = match.group(1).strip()
-
-    match = re.search(r'<thinking>(.*?)</thinking>', texto, re.DOTALL)
-    if match:
-        thinking = match.group(1).strip()
-
-    match = re.search(r'<column_names>(.*?)</column_names>', texto, re.DOTALL)
-    if match:
-        column_names = match.group(1).strip()
-    else:
-        column_names = ""
-
-    match = re.search(r'<tipo_pregunta>(.*?)</tipo_pregunta>', texto, re.DOTALL)
-    if match:
-        tipo_pregunta = match.group(1).strip()
-
-    return query, contexto, thinking, column_names, tipo_pregunta
-
-
 def answer_question(question, prompt_data, model='sonnet', tokens=1000):
     bedrock = boto3.client(
         service_name = 'bedrock-runtime',
         region_name = 'us-east-1'
     )
-    
+
     if model == 'sonnet':
         modelId = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
         modelId = "us.anthropic.claude-3-5-sonnet-20240620-v1:0"
-#        modelId = "anthropic.claude-v2:1"
+        # modelId = "anthropic.claude-v2:1"
     elif model == 'nova':
         modelId = "us.amazon.nova-lite-v1:0"
     elif model == 'haiku':
-#        modelId = "us.anthropic.claude-3-5-haiku-20241022-v1:0"
+        # modelId = "us.anthropic.claude-3-5-haiku-20241022-v1:0"
         modelId = "us.anthropic.claude-3-haiku-20240307-v1:0"
-#        modelId = "anthropic.claude-v2:1"
-    
+        # modelId = "anthropic.claude-v2:1"
 
     input = {
         "modelId": modelId,
@@ -127,15 +90,51 @@ def answer_question(question, prompt_data, model='sonnet', tokens=1000):
                                         modelId=modelId)
                                     
     response_body = json.loads(response['body'].read())
-
     return response_body
 
 
+def get_query(question, model="sonnet", tokens=1000):
+    prompt_data = open("prompt.txt", "r").read()
+    country_codes = open("country_codes.txt", "r").read()
+    prompt_data += country_codes
+
+    response_body = answer_question(question, prompt_data, model=model, tokens=tokens)
+
+    if model=="nova":
+        texto = response_body["output"]["message"]["content"][0]["text"]
+    elif model=="sonnet":
+        texto = response_body["content"][0]["text"] 
+    
+    match = re.search(r'<query>(.*?)</query>', texto, re.DOTALL)
+    if match:
+        query = match.group(1).strip()
+    else:
+        query = ""
+
+    match = re.search(r'<contexto>(.*?)</contexto>', texto, re.DOTALL)
+    if match:
+        contexto = match.group(1).strip()
+
+    match = re.search(r'<thinking>(.*?)</thinking>', texto, re.DOTALL)
+    if match:
+        thinking = match.group(1).strip()
+
+    match = re.search(r'<column_names>(.*?)</column_names>', texto, re.DOTALL)
+    if match:
+        column_names = match.group(1).strip()
+    else:
+        column_names = ""
+
+    match = re.search(r'<tipo_pregunta>(.*?)</tipo_pregunta>', texto, re.DOTALL)
+    if match:
+        tipo_pregunta = match.group(1).strip()
+
+    return query, contexto, thinking, column_names, tipo_pregunta
 
 
-def lambda_handler(event, context):
-
-#    question = event.get('question', 'No message provided')
+def handler(event, context):
+    logging.info('Event: %s', event)
+    # question = event.get('question', 'No message provided')
     start_time = datetime.now()
     question = event['question']
 
@@ -166,10 +165,10 @@ def lambda_handler(event, context):
             QueryExecutionContext={
                 'Database': database
             },
-            ResultConfiguration={
-                'OutputLocation': 's3://zarruk/Unsaved/2024/05/05/'
-                }
-            )
+            # ResultConfiguration={
+            #     'OutputLocation': 's3://zarruk/Unsaved/2024/05/05/'
+            #     }
+        )
             
         QueryID = QueryResponse['QueryExecutionId']
         
@@ -207,7 +206,6 @@ def lambda_handler(event, context):
         df.columns = column_names.split(";")
 
         prompt_data = f"""
-
         Toma esta información: 
         <respuesta>
         {contexto}:
@@ -221,7 +219,6 @@ def lambda_handler(event, context):
         """
 
     #    print(prompt_data)
-
     #    response = answer_question(question, prompt_data, tokens=100)
 
         resultado = f"""
@@ -234,12 +231,18 @@ def lambda_handler(event, context):
         """
 
 #    {response['content'][0]['text']}
-
 #    print("--- response")
 #    print(resultado)
 #    print("--- end response")
 
-    return {
-        'statusCode': 200,
-        'body': resultado
-    }
+    return resultado
+
+
+if __name__ == "__main__":
+
+    response = handler(
+        {
+            "question": "en que percentil quedaron david zarruk y eduardo acevedo en su respectivo ano?"
+        }, {})
+
+    print(response)
