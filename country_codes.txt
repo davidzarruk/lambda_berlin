@@ -1,0 +1,137 @@
+Estos son los códigos que debes usar para cada país:
+
+Germany: GER, DEU
+United Kingdom: GBR, ENG, SCO, WLS, NIR
+United States: USA
+Denmark: DNK, DEN, DK
+France: FRA
+Italy: ITA
+Spain: ESP
+Sweden: SWE
+Netherlands: NLD, NED, HOL
+Austria: AUT
+Brazil: BRA
+Poland: POL
+Mexico: MEX
+Norway: NOR
+Finland: FIN
+Switzerland: CHE, SUI
+China: CHN
+Belgium: BEL
+Ireland: IRL
+Canada: CAN
+Australia: AUS
+Japan: JPN, JAP
+Russia: RUS
+Indonesia: INA, IDN
+Colombia: COL
+Israel: ISR
+Hong Kong: HKG
+Argentina: ARG
+India: IND
+Thailand: THA
+Venezuela: VEN
+Taiwan: TWN, TPE
+South Africa: RSA, ZAF
+Ukraine: UKR
+Costa Rica: CRC, CRI
+South Korea: KOR
+Hungary: HUN
+Portugal: POR, PRT
+Chile: CHI, CHL
+New Zealand: NZL
+Czech Republic: CZE
+Philippines: PHI, PHL
+Estonia: EST
+Turkey: TUR
+Slovenia: SVN
+Peru: PER
+Iceland: ISL
+Luxembourg: LUX
+Romania: ROU, ROM
+Slovakia: SVK
+Guatemala: GUA, GTM
+Ecuador: ECU
+Greece: GRE, GRC
+Dominican Republic: DOM
+Morocco: MAR
+Malaysia: MAS, MYS
+Lithuania: LTU, LIT
+Croatia: CRO, HRV
+Puerto Rico: PUR, PRI
+Singapore: SIN, SGP
+Serbia: SRB
+Kenya: KEN
+Kazakhstan: KAZ
+Latvia: LAT, LVA
+Panama: PAN
+Belarus: BLR
+Bulgaria: BUL, BGR
+Ethiopia: ETH
+Uruguay: URY
+Egypt: EGY
+Cyprus: CYP
+Faroe Islands: FRO
+Paraguay: PAR, PRY
+Iran: IRI, IRN
+Honduras: HON, HND
+Vietnam: VIE, VNM
+England: ENG
+Bosnia and Herzegovina: BIH
+Bolivia: BOL
+El Salvador: ESA, SLV
+Pakistan: PAK
+Malta: MLT
+Mongolia: MGL, MNG
+Tunisia: TUN
+North Macedonia: MKD
+Nigeria: NGR, NGA
+Armenia: ARM
+Moldova: MDA
+Maldives: MDV
+Liechtenstein: LIE
+Nicaragua: NCA, NIC
+Lebanon: LIB, LBN
+Uganda: UGA
+Macau: MAC
+Zimbabwe: ZIM, ZWE
+Jamaica: JAM
+Cuba: CUB
+Afghanistan: AFG
+Nepal: NEP, NPL
+Tanzania: TAN, TZA
+Andorra: AND
+Swaziland/Eswatini: SWZ, SZE
+Djibouti: DJI
+Greenland: GRL
+Guadeloupe: GLP
+Myanmar: MYA, MMR
+Fiji: FIJ
+Libya: LBY
+Saint Lucia: LCA
+United Arab Emirates: UAE
+Kuwait: KWT
+Palestine: PLE, PAL
+Angola: ANG
+Sri Lanka: SRI, LKA
+
+Estos son los códigos para distintas regiones:
+
+1. America latina:
+ARG, BOL, BRA, CHL, COL, CRI, CUB, DOM, ECU, ESA, GUA, GTM, HND, MEX, NIC, PAN, PAR, PER, PUR, SLV, URY, VEN
+
+2. Europa
+ALB, AND, ARM, AUT, BEL, BIH, BGR, BLR, CRO, CYP, CZE, DEN, DNK, ENG, EST, FIN, FRA, FRO, GEO, GER, GIB, GRE, GRC, HOL, HUN, IRL, ISL, ITA, JEY, KOS, LAT, LIE, LIT, LUX, MDA, MKD, MLT, MON, MNE, NED, NIR, NOR, POL, POR, PRT, ROM, ROU, RUS, SCO, SMR, SRB, SUI, SVK, SVN, SWE, TUR, UKR, WLS
+
+3. America
+ANT, ARU, BAH, BAR, BER, BHS, BLZ, BMU, BRB, CAN, CAY, CRC, DOM, GUM, GUY, HND, HTI, JAM, MEX, MSR, NIC, PAN, PAR, PRI, PUR, SLV, SUR, TRI, TTO, USA, VIN, VGB
+
+4. Africa
+AGO, ALG, ANG, BEN, BKF, BOT, BUR, CAF, CAM, CIV, COM, COD, DJI, EGY, ERI, ETH, GAM, GHA, GUI, KEN, LBA, LBR, LES, MAD, MAR, MAW, MLI, MOZ, NAM, NER, NGA, RWA, SDN, SEN, SLE, SOM, SWZ, TAN, TOG, TUN, UGA, ZAF, ZAM, ZIM
+
+5. Asia
+AFG, ARM, AZE, BGD, BHU, BRN, CHN, CYP, GEO, HKG, IDN, IND, IRI, IRN, IRQ, ISR, JPN, JOR, KAZ, KOR, KWT, LAO, LBN, MAC, MAS, MNG, MYA, NPL, OMA, PAK, PLE, QAT, SAU, SGP, SRI, SYR, TPE, TJK, TKM, TLS, THA, UAE, UZB, VIE, YEM
+
+6. Suramérica
+ARG, BOL, BRA, CHL, COL, ECU, GUY, PAR, PER, SUR, URY, VEN
+
