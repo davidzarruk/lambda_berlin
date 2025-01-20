@@ -235,7 +235,10 @@ def handler(event, context):
 #    print(resultado)
 #    print("--- end response")
 
-    return resultado
+    return {
+        'statusCode': 200,
+        'body': resultado
+    }
 
 
 if __name__ == "__main__":
