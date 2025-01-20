@@ -201,18 +201,21 @@ def handler(event, context):
         
         #query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
 
-        while True:
+        state = 'RUNNING'
+
+        while (state in ['RUNNING', 'QUEUED']):
+            response = athena_client.get_query_execution(QueryExecutionId = QueryID)
+
+            if 'QueryExecution' in response and \
+                    'Status' in response['QueryExecution'] and \
+                    'State' in response['QueryExecution']['Status']:
+                state = response['QueryExecution']['Status']['State']
+                if state == 'FAILED':
+                    return False
+                elif state == 'SUCCEEDED':
+                    query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
             time.sleep(1)
 
-            query_execution = athena_client.get_query_execution(QueryExecutionId = QueryID)
-
-            state = query_execution['QueryExecution']['Status']['State']
-
-            if state == 'SUCCEEDED':
-                query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
-                break;
-            elif state in ['FAILED', 'CANCELLED']:
-                time.sleep(1)
 
         time_to_query_results = datetime.now() - start_time
         print(f"Time to query results: {time_to_query_results}")
@@ -284,7 +287,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "cual fue el tiempo promedio de los colombianos cada año?"
+            "question": "cual es el promedio del top 10 de mujeres de cada país en latinoamerica?"
         }, {})
 
     print(response)
