@@ -196,9 +196,23 @@ def handler(event, context):
             
         QueryID = QueryResponse['QueryExecutionId']
         
-        time.sleep(5)
+        # time.sleep(5)
         
-        query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
+        #query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
+
+        while True:
+            time.sleep(1)
+
+            query_execution = athena_client.get_query_execution(QueryExecutionId = QueryID)
+
+            state = query_execution['QueryExecution']['Status']['State']
+
+            if state == 'SUCCEEDED':
+                query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
+                break;
+            elif state in ['FAILED', 'CANCELLED']:
+                time.sleep(1)
+
         time_to_query_results = datetime.now() - start_time
         print(f"Time to query results: {time_to_query_results}")
         
