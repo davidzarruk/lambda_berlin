@@ -38,6 +38,8 @@ def answer_question(question, prompt_data, model='sonnet', tokens=1000):
         # modelId = "us.anthropic.claude-3-5-haiku-20241022-v1:0"
         modelId = "us.anthropic.claude-3-haiku-20240307-v1:0"
         # modelId = "anthropic.claude-v2:1"
+    elif model == "openai":
+        modelId = "gpt-4o-mini"
 
     input = {
         "modelId": modelId,
@@ -68,8 +70,9 @@ def answer_question(question, prompt_data, model='sonnet', tokens=1000):
                                         modelId=input['modelId'],
                                         accept=input['accept'],
                                         contentType=input['contentType'])
+        response_body = json.loads(response['body'].read())
 
-    else:
+    elif model == "nova":
         print("Using NOVA")
         system_list = [{"text": prompt_data}]
 
@@ -88,8 +91,27 @@ def answer_question(question, prompt_data, model='sonnet', tokens=1000):
 
         response = bedrock.invoke_model(body=json.dumps(body),
                                         modelId=modelId)
-                                    
-    response_body = json.loads(response['body'].read())
+        response_body = json.loads(response['body'].read())
+        
+
+    elif model == "openai":
+        client = OpenAI()
+
+        completion = client.chat.completions.create(
+            model=input['modelId'],
+            messages=[
+                {"role": "system", "content": prompt_data},
+                {
+                    "role": "user",
+                    "content": question
+                }
+            ]
+        )
+
+        response_body = completion.choices[0].message.content
+        print(f"Type of texto: {type(response_body)}, Value: {response_body}")
+
+
     return response_body
 
 
@@ -104,6 +126,8 @@ def get_query(question, model="sonnet", tokens=1000):
         texto = response_body["output"]["message"]["content"][0]["text"]
     elif model=="sonnet":
         texto = response_body["content"][0]["text"] 
+    elif model=="openai":
+        texto = response_body 
     
     match = re.search(r'<query>(.*?)</query>', texto, re.DOTALL)
     if match:
@@ -138,7 +162,7 @@ def handler(event, context):
     start_time = datetime.now()
     question = event['question']
 
-    query, contexto, thinking, column_names, tipo_pregunta = get_query(question, model="sonnet", tokens=1000)
+    query, contexto, thinking, column_names, tipo_pregunta = get_query(question, model="openai", tokens=1000)
 
     time_to_query = datetime.now() - start_time
     print(f"Time to query: {time_to_query}")
