@@ -39,7 +39,8 @@ def answer_question(question, prompt_data, model='sonnet', tokens=1000):
         modelId = "us.anthropic.claude-3-haiku-20240307-v1:0"
         # modelId = "anthropic.claude-v2:1"
     elif model == "openai":
-        modelId = "gpt-4o-mini"
+#        modelId = "gpt-4o-mini"
+        modelId = "gpt-4o"
 
     input = {
         "modelId": modelId,
