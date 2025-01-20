@@ -209,9 +209,25 @@ def handler(event, context):
             
         QueryID = QueryResponse['QueryExecutionId']
         
-        time.sleep(5)
+        # time.sleep(7)
         
-        query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
+        # query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
+
+        state = 'RUNNING'
+        
+        while (state in ['RUNNING', 'QUEUED']):
+            response = athena_client.get_query_execution(QueryExecutionId=QueryID)
+
+            if 'QueryExecution' in response and \
+                    'Status' in response['QueryExecution'] and \
+                    'State' in response['QueryExecution']['Status']:
+                state = response['QueryExecution']['Status']['State']
+                if state == 'SUCCEEDED':
+                    query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
+                elif state == 'FAILED':
+                    query_results = []
+
+            time.sleep(1)
 
 
         time_to_query_results = datetime.now() - start_time
@@ -219,6 +235,7 @@ def handler(event, context):
         
         # Extract rows from the JSON
         rows = query_results['ResultSet']['Rows']
+        print(f"Rows: {rows}")
 
         # Convert rows to a list of lists
         data = [[col['VarCharValue'] for col in row['Data']] for row in rows]
@@ -284,7 +301,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "muéstrame a las mujeres en el top 10 de latinoamérica de toda la historia"
+            "question": "cuantos corredores hubo de cada continente en 2024 y cual fue el tiempo promedio por continente?"
         }, {})
 
     print(response)

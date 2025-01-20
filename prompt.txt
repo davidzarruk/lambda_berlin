@@ -547,6 +547,46 @@ Esta tabla contiene el tiempo promedio para la categoría 20-30 para cada año:
 </example>
 
 
+
+<example>
+H: <request> cuantos corredores hubo de cada continente en 2024 y cual fue 
+el tiempo promedio por continente? </request>
+
+A:
+<query>
+WITH continents AS (
+    SELECT 
+        CASE 
+            WHEN country IN ('USA', 'CAN', 'BRA', 'MEX', 'ARG', 'COL', 'VEN', 'PER', 'CHL', 'ECU', 'BOL', 'PRY', 'URY', 'GTM', 'SLV', 'HND', 'NIC', 'CRI', 'PAN', 'CUB', 'DOM', 'HTI', 'BHS', 'BRB', 'JAM', 'TTO', 'GUY', 'SUR') THEN 'America'
+            WHEN country IN ('GER', 'FRA', 'ITA', 'ESP', 'NLD', 'BEL', 'SUI', 'AUT', 'GBR', 'IRL', 'PRT', 'SWE', 'NOR', 'DNK', 'FIN', 'POL', 'CZE', 'SVK', 'HUN', 'ROU', 'BGR', 'GRC', 'RUS', 'UKR') THEN 'Europe'
+            WHEN country IN ('KEN', 'ETH', 'RSA', 'MAR', 'EGY', 'UGA', 'NGR', 'TUN', 'ALG', 'ZAF', 'GHA', 'ZIM', 'SLE', 'RWA','NAM','BOT') THEN 'Africa'
+            WHEN country IN ('CHN', 'JPN', 'IND', 'KOR', 'IDN', 'SGP', 'PHI', 'VIE', 'THA', 'MYS', 'PAK', 'BGD', 'UZB', 'KAZ', 'TJK', 'TKM', 'IRN', 'IRQ', 'SAU', 'UAE', 'ISR', 'JOR', 'KWT', 'OMA', 'QAT', 'BHR') THEN 'Asia'
+            WHEN country IN ('AUS', 'NZL', 'FJI', 'PNG', 'SAM', 'TON', 'KIR', 'SLB', 'VUT', 'WSM') THEN 'Oceania'
+        END as continent,
+        netto_secs
+    FROM berlin_data
+    WHERE year = 2024 AND netto_secs > 0
+)
+SELECT 
+    continent, 
+    COUNT(*) as number_of_runners,
+    AVG(netto_secs) as seconds_average
+FROM continents
+GROUP BY continent
+ORDER BY number_of_runners DESC
+</query>
+
+<contexto>
+Esta tabla tiene el número de corredores y tiempo promedio de cada continente
+en el año 2024:
+</contexto>
+
+<column_names>Continente;Número de corredores;Tiempo promedio</column_names>
+<tipo_pregunta>resultado</tipo_pregunta>
+</example>
+
+
+
 </examples>
 
 
