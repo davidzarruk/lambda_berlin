@@ -284,7 +284,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "cual es el promedio del top 10 de mujeres de cada país en latinoamerica?"
+            "question": "muéstrame a las mujeres en el top 10 de latinoamérica de toda la historia"
         }, {})
 
     print(response)

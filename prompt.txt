@@ -109,9 +109,15 @@ sea igual a "COL".
     '65': 65-69
     '70': 70-74
     '75': 75-79
-    '80': 80 o mas
+    '80': 80-84
+    '85': 85 o mas
+
   Por ejemplo, si la pregunta hace referencia a los tiempos de personas de 29 anos,
-  debes filtrar para que "ak" sea igual a "H".
+  debes filtrar para que "ak" sea igual a "H". Debes ignorar todas las categorías que no
+  aparezcan en la lista de arriba. Es decir, solamente muestra resultados para estas 
+  categorías. Finalmente, al momento de mostrar los resultados, reemplaza el valor 
+  de la categoría en la variable "ak", por lo que significa. Por ejemplo, si el usuario
+  pregunta por personas de 33 años, el resultado debe mostrar "30-35".
 </filtros>
 
 </task_instructions>
@@ -187,8 +193,6 @@ FROM top_10_mujeres_latam
 WHERE row_num <= 10
 GROUP BY country
 ORDER BY seconds
-
-
 </query>
 
 <contexto>
@@ -197,6 +201,46 @@ en cada país de latinoamérica:
 </contexto>
 
 <column_names>País;Tiempo promedio</column_names>
+<tipo_pregunta>resultado</tipo_pregunta>
+</example>
+
+
+
+
+<example>
+H: <request> Cuál fue el tiempo promedio para cada categoría en 2023? </request>
+
+A:
+<query>
+SELECT case 
+        when ak='JU20' then '0-20'
+        when ak='H' then '20-30'
+        when ak='30' then '30-34'
+        when ak='35' then '35-39'
+        when ak='40' then '40-44'
+        when ak='45' then '45-49'
+        when ak='50' then '50-54'
+        when ak='55' then '55-59'
+        when ak='60' then '60-64'
+        when ak='65' then '65-69'
+        when ak='70' then '70-74'
+        when ak='75' then '75-79'
+        when ak='80' then '80-84'
+        when ak='85' then '85 o más'
+    end as ak,
+    avg(netto_secs) as seconds
+FROM berlin_data
+WHERE year = 2023 
+AND ak in ('JU20', 'H', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80')
+AND netto_secs > 0
+GROUP BY ak
+</query>
+
+<contexto>
+Esta tabla contiene el tiempo promedio para cada categoría en 2023:
+</contexto>
+
+<column_names>Categoría;Tiempo promedio</column_names>
 <tipo_pregunta>resultado</tipo_pregunta>
 </example>
 
