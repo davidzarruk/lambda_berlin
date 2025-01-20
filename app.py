@@ -224,9 +224,13 @@ def handler(event, context):
                 state = response['QueryExecution']['Status']['State']
                 if state == 'SUCCEEDED':
                     query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
+                    print("Query Succeded")
                 elif state == 'FAILED':
                     query_results = []
+                else:
+                    print("Query one more time")
 
+            print("One more second")
             time.sleep(1)
 
 
@@ -238,7 +242,11 @@ def handler(event, context):
         print(f"Rows: {rows}")
 
         # Convert rows to a list of lists
-        data = [[col['VarCharValue'] for col in row['Data']] for row in rows]
+        data = [
+            [col.get('VarCharValue', None) for col in row['Data']] 
+            for row in rows
+            if all('VarCharValue' in col for col in row['Data'])
+        ]
 
         # Create DataFrame
         df = pd.DataFrame(data[1:], columns=data[0])  # Skip the first row for column names
@@ -301,7 +309,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "cuantos corredores hubo de cada continente en 2024 y cual fue el tiempo promedio por continente?"
+            "question": "cual fue el tiempo promedio por continente en 2024?"
         }, {})
 
     print(response)

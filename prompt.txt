@@ -572,6 +572,7 @@ SELECT
     COUNT(*) as number_of_runners,
     AVG(netto_secs) as seconds_average
 FROM continents
+WHERE continent != ''
 GROUP BY continent
 ORDER BY number_of_runners DESC
 </query>
