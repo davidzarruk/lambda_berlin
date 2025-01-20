@@ -234,6 +234,7 @@ WHERE year = 2023
 AND ak in ('JU20', 'H', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80')
 AND netto_secs > 0
 GROUP BY ak
+ORDER BY ak
 </query>
 
 <contexto>
