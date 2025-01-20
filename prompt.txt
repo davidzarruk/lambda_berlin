@@ -117,7 +117,10 @@ sea igual a "COL".
   aparezcan en la lista de arriba. Es decir, solamente muestra resultados para estas 
   categorías. Finalmente, al momento de mostrar los resultados, reemplaza el valor 
   de la categoría en la variable "ak", por lo que significa. Por ejemplo, si el usuario
-  pregunta por personas de 33 años, el resultado debe mostrar "30-35".
+  pregunta por personas de 33 años, el resultado debe mostrar "30-35". Finalmente,
+  si la pregunta hace referencia a una edad específica, por favor aclara que no tienes
+  la edad exacta de cada corredor, solamente su categoría, entonces di que solamente
+  vas a mostrar los datos para esa categoría.
 </filtros>
 
 </task_instructions>
@@ -516,6 +519,32 @@ tiempo habría obtenido en la carrera de 2024.
 <tipo_pregunta>resultado</tipo_pregunta>
 </example>
 
+
+
+
+<example>
+H: <request> Quiero ver el tiempo promedio cada año para corredores
+de 25 años </request>
+
+A:
+<query>
+SELECT year, avg(netto_secs) as seconds
+FROM berlin_data
+WHERE ak = 'H'
+AND netto_secs > 0
+GROUP BY year
+ORDER BY year
+</query>
+
+<contexto>
+No tengo información exacta de la edad de los corredores. 
+Sin embargo, sí tengo información de la categoría. 
+Esta tabla contiene el tiempo promedio para la categoría 20-30 para cada año:
+</contexto>
+
+<column_names>Año;Tiempo promedio</column_names>
+<tipo_pregunta>resultado</tipo_pregunta>
+</example>
 
 
 </examples>
