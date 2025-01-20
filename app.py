@@ -41,6 +41,7 @@ def answer_question(question, prompt_data, model='sonnet', tokens=1000):
     elif model == "openai":
 #        modelId = "gpt-4o-mini"
         modelId = "gpt-4o"
+        modelId = "o1-mini"
 
     input = {
         "modelId": modelId,
@@ -98,16 +99,27 @@ def answer_question(question, prompt_data, model='sonnet', tokens=1000):
     elif model == "openai":
         client = OpenAI()
 
-        completion = client.chat.completions.create(
-            model=input['modelId'],
-            messages=[
-                {"role": "system", "content": prompt_data},
-                {
-                    "role": "user",
-                    "content": question
-                }
-            ]
-        )
+        if modelId != "o1-mini":
+            completion = client.chat.completions.create(
+                model=input['modelId'],
+                messages=[
+                    {"role": "system", "content": prompt_data},
+                    {
+                        "role": "user",
+                        "content": question
+                    }
+                ]
+            )
+        else:
+            completion = client.chat.completions.create(
+                model=input['modelId'],
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt_data + " " + question
+                    }
+                ]
+            )
 
         response_body = completion.choices[0].message.content
         print(f"Type of texto: {type(response_body)}, Value: {response_body}")
@@ -197,24 +209,9 @@ def handler(event, context):
             
         QueryID = QueryResponse['QueryExecutionId']
         
-        # time.sleep(5)
+        time.sleep(5)
         
-        #query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
-
-        state = 'RUNNING'
-
-        while (state in ['RUNNING', 'QUEUED']):
-            response = athena_client.get_query_execution(QueryExecutionId = QueryID)
-
-            if 'QueryExecution' in response and \
-                    'Status' in response['QueryExecution'] and \
-                    'State' in response['QueryExecution']['Status']:
-                state = response['QueryExecution']['Status']['State']
-                if state == 'FAILED':
-                    return False
-                elif state == 'SUCCEEDED':
-                    query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
-            time.sleep(1)
+        query_results = athena_client.get_query_results(QueryExecutionId=QueryID)
 
 
         time_to_query_results = datetime.now() - start_time
@@ -287,7 +284,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "cual es el promedio del top 10 de mujeres de cada país en latinoamerica?"
+            "question": "cual es el promedio del top 10 de corredores de cada país en latinoamerica?"
         }, {})
 
     print(response)
