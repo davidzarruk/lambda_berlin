@@ -284,7 +284,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "cuales han sido los mejores latinoamericanos por encima de 2:30:00"
+            "question": "cual es el promedio del top 10 de mujeres de cada país en latinoamerica?"
         }, {})
 
     print(response)

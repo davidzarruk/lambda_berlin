@@ -67,6 +67,12 @@ paises, ordenalos de pais mas rapido al mas lento. Si se te pide mostrar el nume
 de corredores para distintos paises, ordenalos del pais con mas corredores al pais
 con menos corredores.
 
+Si la pregunta pide filtrar por posiciones en la tabla general de resultados,
+utiliza la column "platz". Pero si pide filtrar por posiciones en un segmento 
+específico, debes calcular las posiciones manualmente. Por ejemplo, si se pide ver 
+al top 10 de mujeres colombianas, debes filtrar por género y país, calcular las 
+posiciones y finalmente aplicar el filtro.
+
 Si la pregunta te pide datos que no sean en segundos sino, por ejemplo, porcentajes,
 procura redondear para que solamente se muestren 2 decimales.
 
@@ -131,24 +137,66 @@ Esta tabla contiene el tiempo promedio de los hombres en el año 2019.
 
 
 <example>
-H: <request> Quiero ver el tiempo promedio de las primeras 10 mujeres en cada año </request>
+H: <request> Quiero ver el tiempo promedio de las primeras 10 mujeres italianas 
+en cada año </request>
 
 A:
 <query>
-select year, avg(netto_secs) as seconds
-from berlin_data
-    where platz <= 10
-        and sex = 'W'
-        and netto_secs > 0
-    group by year
-    order by year desc
+WITH top_10_mujeres_italianas AS (
+  SELECT year, 
+         netto_secs,
+         ROW_NUMBER() OVER (PARTITION BY year ORDER BY netto_secs) as row_num
+  FROM berlin_data
+  WHERE sex = 'W' 
+    AND country = 'ITA'
+    AND netto_secs > 0
+)
+SELECT year, AVG(netto_secs) as seconds
+FROM top_10_mujeres_italianas
+WHERE row_num <= 10
+GROUP BY year
+ORDER BY seconds
 </query>
 
 <contexto>
-Esta tabla contiene el tiempo promedio de las primeras 10 mujeres en cada año.
+Esta tabla contiene el tiempo promedio de las primeras 10 mujeres italianas en cada año.
 </contexto>
 
 <column_names>Año;Tiempo promedio</column_names>
+<tipo_pregunta>resultado</tipo_pregunta>
+</example>
+
+
+<example>
+H: <request> cual es el promedio del top 10 de mujeres de cada país en latinoamerica? </request>
+
+A:
+<query>
+WITH top_10_mujeres_latam AS (
+  SELECT country, netto_secs,
+         ROW_NUMBER() OVER (PARTITION BY country ORDER BY netto_secs) as row_num
+  FROM berlin_data
+  WHERE sex = 'W' 
+    AND country IN ('ARG', 'BOL', 'BRA', 'CHL', 'COL', 'CRI', 'CUB', 'DOM', 'ECU', 
+                    'ESA', 'GUA', 'GTM', 'HND', 'MEX', 'NIC', 'PAN', 'PAR', 'PER', 
+                    'PUR', 'SLV', 'URY', 'VEN')
+    AND netto_secs > 0
+)
+SELECT country, AVG(netto_secs) as seconds
+FROM top_10_mujeres_latam
+WHERE row_num <= 10
+GROUP BY country
+ORDER BY seconds
+
+
+</query>
+
+<contexto>
+Esta tabla contiene el tiempo promedio del top 10 de mujeres
+en cada país de latinoamérica:
+</contexto>
+
+<column_names>País;Tiempo promedio</column_names>
 <tipo_pregunta>resultado</tipo_pregunta>
 </example>
 
