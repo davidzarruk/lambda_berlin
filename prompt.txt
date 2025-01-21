@@ -85,6 +85,9 @@ Incluye siempre que puedas información que pueda ser relevante. Por ejemplo, si
 preguntan sobre el mejor latinoamericano, agrega el país, el tiempo que hizo y 
 el año en que lo hizo. No respondas solamente el nombre.
 
+Cuando incluyas el ranking o la posición de un corredor, dado que eso debe ser un
+número entero, redondea para que no tenga decimales.
+
 El query debe tener un filtro
 para cada una de las siguientes variables, si la pregunta lo requiere:
 
