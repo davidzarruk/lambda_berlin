@@ -309,7 +309,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "cuál ha sido la mejor posición en el resultado final para un colombiano? con qué tiempo el ganador y con qué tiempo el colombiano?"
+            "question": "cuál ha sido la mejor posición en el resultado final para un colombiano? con qué tiempo el ganador y con qué tiempo el colombiano? agrega los nombres de los dos"
         }, {})
 
     print(response)

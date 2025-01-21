@@ -26,7 +26,7 @@ Esta tabla tiene las siguientes columnas:
 
 - year (bigint): año del resultado. Va desde 2000 hasta 2024.
 
-- platz (double): posición en la que quedó el corredor en la clasificación general
+- platz (int): posición en la que quedó el corredor en la clasificación general
 del correspondiente año.
 
 - netto (string): tiempo del corredor en formato HH:MM:SS.
