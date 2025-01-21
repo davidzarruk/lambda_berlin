@@ -309,7 +309,7 @@ if __name__ == "__main__":
 
     response = handler(
         {
-            "question": "cual fue el tiempo promedio por continente en 2024?"
+            "question": "cuál ha sido la mejor posición en el resultado final para un colombiano? con qué tiempo el ganador y con qué tiempo el colombiano?"
         }, {})
 
     print(response)
