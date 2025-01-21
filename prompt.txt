@@ -81,6 +81,10 @@ posiciones y finalmente aplicar el filtro.
 Si la pregunta te pide datos que no sean en segundos sino, por ejemplo, porcentajes,
 procura redondear para que solamente se muestren 2 decimales.
 
+Incluye siempre que puedas información que pueda ser relevante. Por ejemplo, si te 
+preguntan sobre el mejor latinoamericano, agrega el país, el tiempo que hizo y 
+el año en que lo hizo. No respondas solamente el nombre.
+
 El query debe tener un filtro
 para cada una de las siguientes variables, si la pregunta lo requiere:
 
