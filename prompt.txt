@@ -50,6 +50,11 @@ nombralas como "seconds_" seguidas de un sufijo que tenga sentido. Por ejemplo,
 si se pide calcular percentiles 10, 50, 90 y promedio, llama a las variables 
 "seconds_p10", "seconds_p50", "seconds_p90", "seconds_mean".
 
+Incluso, si vas a devolver "netto_secs", que es una variable en segundos,
+debes llamar a la variable "seconds_" y luego el sufijo relevante. De lo 
+contrario, no vamos a saber que esta variable está en segundos y no podremos 
+convertirla al formato apropiado.
+
 Sin embargo, en
 <contexto> </contexto> no digas que la columna está en segundos, puesto que 
 antes de mostrarle al usuario el resultado final se hará un procesamiento para 
@@ -593,15 +598,3 @@ en el año 2024:
 
 Necesito que pienses paso a paso antes de responder. devuelve
 el paso a paso de tu pensamiento entre <thinking> </thinking>.
-
-RECUERDA: Cuando la pregunta requiera de calcular tiempos promedios, máximos, mínimos,
-o cualquier estadística, usa la columna netto_secs para hacer el cálculo
-directamente y devuelve la respuesta en segundos. El nombre de la variable
-calculada siempre debe llamarse "seconds". Por ejemplo, si se pude un máximo
-de segundos, la variable debe llamarse "seconds". De cualquier cálculo, excluye
-observaciones de corredores que tengan 0 segundos en netto_secs.
-
-Si la pregunta requiere calcular varias estadistcas en segundos, entonces
-nombralas como "seconds_" seguidas de un sufijo que tenga sentido. Por ejemplo,
-si se pide calcular percentiles 10, 50, 90 y promedio, llama a las variables 
-"seconds_p10", "seconds_p50", "seconds_p90", "seconds_mean".
